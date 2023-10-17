@@ -191,32 +191,55 @@ let contarEntregados = (series: SERIE[], videojuegos: VIDEOJUEGO[]) => {
 
 //calcular que videjuego es el mas largo y la serie con mas temporadas e imprimirlas por pantalla
 
+
+//recorro todo el array de series, si previaSerie es mayor que serieActual, seriemasLarga = previaSerie 
+//si no seriMasLarga es igual a currentSerie
 let calcularMasLarga = (series: SERIE[], videojuegos: VIDEOJUEGO[]) => {
-  let serieMasLarga: SERIE | null = null;
-  let videojuegoMasLargo: VIDEOJUEGO | null = null;
+  const serieMasLarga = series.reduce((previaSerie, serieActual) =>
+    previaSerie.getNumeroDeTemporadas() > serieActual.getNumeroDeTemporadas() ? previaSerie : serieActual
+  );
 
-  series.forEach((serie) => {
-    if (
-      !serieMasLarga ||
-      serie.getNumeroDeTemporadas() > serieMasLarga.getNumeroDeTemporadas()
-    ) {
-      serieMasLarga = serie;
-    }
-    return serieMasLarga;
-  });
+  //recorro todo el array de videojuegos, y lo mismo que con series :)
 
-  videojuegos.forEach((videojuego) => {
-    if (
-      !videojuegoMasLargo ||
-      videojuego.getHorasEstimadas() > videojuegoMasLargo.getHorasEstimadas()
-    ) {
-      videojuegoMasLargo = videojuego;
-    }
-  });
+  const videojuegoMasLargo = videojuegos.reduce((previoVideojuego, videojuegoActual) =>
+    previoVideojuego.getHorasEstimadas() > videojuegoActual.getHorasEstimadas()
+      ? previoVideojuego
+      : videojuegoActual
+  );
 
   console.log(`Serie mas larga: ${serieMasLarga.getTitulo()}`);
   console.log(`Videojuego mas largo: ${videojuegoMasLargo.getTitulo()}`);
 };
 
-calcularMasLarga(series, videojuegos);
-contarEntregados(series, videojuegos);
+// metodo antes de refactorizar (sin reduce)
+
+
+// let calcularMasLarga = (series: SERIE[], videojuegos: VIDEOJUEGO[]) => {
+//   let serieMasLarga: SERIE | null = null;
+//   let videojuegoMasLargo: VIDEOJUEGO | null = null;
+
+//   series.forEach((serie) => {
+//     if (
+//       !serieMasLarga ||
+//       serie.getNumeroDeTemporadas() > serieMasLarga.getNumeroDeTemporadas()
+//     ) {
+//       serieMasLarga = serie;
+//     }
+//     return serieMasLarga;
+//   });
+
+//   videojuegos.forEach((videojuego) => {
+//     if (
+//       !videojuegoMasLargo ||
+//       videojuego.getHorasEstimadas() > videojuegoMasLargo.getHorasEstimadas()
+//     ) {
+//       videojuegoMasLargo = videojuego;
+//     }
+//   });
+
+//   console.log(`Serie mas larga: ${serieMasLarga.getTitulo()}`);
+//   console.log(`Videojuego mas largo: ${videojuegoMasLargo.getTitulo()}`);
+// };
+
+// calcularMasLarga(series, videojuegos);
+// contarEntregados(series, videojuegos);

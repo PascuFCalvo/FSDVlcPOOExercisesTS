@@ -132,21 +132,18 @@ var contarEntregados = function (series, videojuegos) {
 };
 //calcular que videjuego es el mas largo y la serie con mas temporadas e imprimirlas por pantalla
 var calcularMasLarga = function (series, videojuegos) {
-    var serieMasLarga = null;
-    var videojuegoMasLargo = null;
-    series.forEach(function (serie) {
-        if (!serieMasLarga ||
-            serie.getNumeroDeTemporadas() > serieMasLarga.getNumeroDeTemporadas()) {
-            serieMasLarga = serie;
+    var serieMasLarga = series.reduce(function (serieMax, serie) {
+        if (!serieMax || serie.getNumeroDeTemporadas() > serieMax.getNumeroDeTemporadas()) {
+            return serie;
         }
-        return serieMasLarga;
-    });
-    videojuegos.forEach(function (videojuego) {
-        if (!videojuegoMasLargo ||
-            videojuego.getHorasEstimadas() > videojuegoMasLargo.getHorasEstimadas()) {
-            videojuegoMasLargo = videojuego;
+        return serieMax;
+    }, null);
+    var videojuegoMasLargo = videojuegos.reduce(function (videojuegoMax, videojuego) {
+        if (!videojuegoMax || videojuego.getHorasEstimadas() > videojuegoMax.getHorasEstimadas()) {
+            return videojuego;
         }
-    });
+        return videojuegoMax;
+    }, null);
     console.log("Serie mas larga: ".concat(serieMasLarga.getTitulo()));
     console.log("Videojuego mas largo: ".concat(videojuegoMasLargo.getTitulo()));
 };
